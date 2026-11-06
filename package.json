@@ -1,0 +1,27 @@
+{
+  "name": "my_second_brain",
+  "version": "1.0.0",
+  "description": "We’re building a second brain app. An app where you can come, add content from various sources (Twitter, Youtube, Google docs) and store it in a centralized place.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devprashant17/my_second_brain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/devprashant17/my_second_brain/issues"
+  },
+  "homepage": "https://github.com/devprashant17/my_second_brain#readme",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "mongoose": "^9.12.0",
+    "typescript": "^7.0.2"
+  }
+}
