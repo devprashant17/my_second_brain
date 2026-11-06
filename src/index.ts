@@ -1,9 +1,15 @@
 import express from "express";
 import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
+import userModel from "./db.js";
 import {z} from 'zod';
+import dotenv from 'dotenv'
 
 const app = express();
+
+dotenv.config();
+const uri:any = process.env.MONGO_URI;
+await mongoose.connect(uri);
 
 app.use(express.json());
 
@@ -21,7 +27,7 @@ const signupSchema = z.object({
     .regex(/[^a-zA-Z0-9]/, "Password must contain at least one special character")
 });
 
-app.post('/api/v1/signup',(req,res)=>{
+app.post('/api/v1/signup',async (req,res)=>{
     const result = signupSchema.safeParse(req.body);
     
     try{
@@ -30,12 +36,19 @@ app.post('/api/v1/signup',(req,res)=>{
         }
 
         const user = result.data;
-
+        const UserDB = await userModel.create({
+            username: user.username,
+            password: user.password
+        })
         return res.status(200).json({
             message:"You are signed up!"
         })        
     }
-    catch{
+    catch(err:any){
+        if(err.code==11000){
+          return res.status(403).send("Username taken!")  
+        }
+ 
         return res.status(500).send("Server Error 500!")
     }
 });
