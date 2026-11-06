@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 const app = express();
 
 dotenv.config();
+
+const JWT_SECRET:any = process.env.JWT_SECRET;
 const uri:any = process.env.MONGO_URI;
 await mongoose.connect(uri);
 
@@ -26,6 +28,11 @@ const signupSchema = z.object({
     .regex(/[0-9]/, "Password must contain at least one number")
     .regex(/[^a-zA-Z0-9]/, "Password must contain at least one special character")
 });
+
+const signinSchema = z.object({
+    username: z.string(),
+    password: z.string()
+})
 
 app.post('/api/v1/signup',async (req,res)=>{
     const result = signupSchema.safeParse(req.body);
@@ -53,8 +60,29 @@ app.post('/api/v1/signup',async (req,res)=>{
     }
 });
 
-app.post('/api/v1/signin',(req,res)=>{
+app.post('/api/v1/signin',async (req,res)=>{
+   try{
+        const username = req.body.username;
+        const password = req.body.password;
+                
+        const foundUser:any = await userModel.findOne({
+            username: username,
+            password: password
+        });
 
+        if(!foundUser){
+            return res.status(403).send("Wrong Credentials!");
+        }
+
+        const token = jwt.sign({userId:foundUser._id},JWT_SECRET);  // Should not include password here
+
+        return res.status(200).json({
+            token: token
+        });
+    }
+    catch{
+        return res.status(500).send("Server Error 500!")
+    }
 });
 
 app.post('/api/v1/content',(req,res)=>{
