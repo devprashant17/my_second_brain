@@ -23,16 +23,21 @@ const signupSchema = z.object({
 
 app.post('/api/v1/signup',(req,res)=>{
     const result = signupSchema.safeParse(req.body);
-    console.log(result);
-    if(!result.success){
-        return res.status(411).send("Error in input");
+    
+    try{
+        if(!result.success){
+            return res.status(411).send("Error in input");
+        }
+
+        const user = result.data;
+
+        return res.status(200).json({
+            message:"You are signed up!"
+        })        
     }
-
-    const user = result.data;
-
-    res.status(200).json({
-        message:"You are signed up!"
-    })
+    catch{
+        return res.status(500).send("Server Error 500!")
+    }
 });
 
 app.post('/api/v1/signin',(req,res)=>{
