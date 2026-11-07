@@ -13,8 +13,23 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     password: String
-})
+});
+
+const contentSchema = new mongoose.Schema({
+    type: {
+        type:String,
+        enum:["Document", "Tweet", "Youtube", "Link"]
+    },
+    link: String,
+    title: String,
+    tags: [String],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+});
 
 const userModel = mongoose.model("User",userSchema);
+const contentModel = mongoose.model("Content",contentSchema);
 
-export default userModel;
+export  {userModel,contentModel} ;

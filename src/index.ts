@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
-import userModel from "./db.js";
+import {userModel,contentModel} from "./db.js";
 import {z} from 'zod';
 import dotenv from 'dotenv'
 
@@ -33,6 +33,25 @@ const signinSchema = z.object({
     username: z.string(),
     password: z.string()
 })
+
+function authentication(req:any,res:any,next:any){
+    const token:any = req.headers.token;
+
+    interface MyJwtPayload extends jwt.JwtPayload {
+    userId: string;
+    }
+
+    try{
+        const decodedInfo = jwt.verify(token,JWT_SECRET);
+        res.locals.userId = (decodedInfo as MyJwtPayload).userId;
+        next();
+    }
+    catch{
+        return res.status(403).send("Invalid Token!");
+    }
+
+
+}
 
 app.post('/api/v1/signup',async (req,res)=>{
     const result = signupSchema.safeParse(req.body);
@@ -85,7 +104,17 @@ app.post('/api/v1/signin',async (req,res)=>{
     }
 });
 
-app.post('/api/v1/content',(req,res)=>{
+app.post('/api/v1/content',authentication,async (req,res)=>{
+    const content:any = req.body;
+    const userId = res.locals.userId;
+
+    await contentModel.create({
+        type: content.type,
+        link: content.link,
+        title: content.title,
+        tags: content.tags,
+        userId: userId
+    });
 
 });
 
