@@ -105,20 +105,31 @@ app.post('/api/v1/signin',async (req,res)=>{
 });
 
 app.post('/api/v1/content',authentication,async (req,res)=>{
-    const content:any = req.body;
-    const userId = res.locals.userId;
+    try{
+        const content:any = req.body;
+        const userId = res.locals.userId;
 
-    await contentModel.create({
-        type: content.type,
-        link: content.link,
-        title: content.title,
-        tags: content.tags,
-        userId: userId
-    });
+        await contentModel.create({
+            type: content.type,
+            link: content.link,
+            title: content.title,
+            tags: content.tags,
+            userId: userId
+        });
+
+        return res.status(200).json({
+            message: "Content added successfully!"
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server Error!");
+    }
+    
 
 });
 
-app.get('/api/v1/content',(req,res)=>{
+app.get('/api/v1/content',authentication,async (req,res)=>{
 
 });
 
@@ -134,6 +145,10 @@ app.get('/api/v1/brain/:shareLink',(req,res)=>{
 
 });
 
+app.get('/', (req, res) => {
+    res.send("My Second Brain API is running!");
+});
+
 app.listen(3000,()=>{
-    console.log("Listening on port 3000...........");
+    console.log("Listening on port 3000...");
 })
