@@ -203,12 +203,7 @@ app.post('/api/v1/brain/share',authentication,async (req,res)=>{
                 share: true
             });
 
-        if(user.shareLink){
-            return res.status(200).json({
-                shareLink: user.shareLink
-            });
-        }
-        else{
+        if(!user.shareLink){
             const shareId = randomUUID();
             let updatedUser = await userModel.findOneAndUpdate({
                 _id: userId
@@ -232,6 +227,8 @@ app.post('/api/v1/brain/share',authentication,async (req,res)=>{
 });
 
 app.get('/api/v1/brain/:shareLink',(req,res)=>{
+    const shareLink = req.params.shareLink;
+
 
 });
 
@@ -242,3 +239,4 @@ app.get('/', (req, res) => {
 app.listen(3000,()=>{
     console.log("Listening on port 3000......");
 })
+
