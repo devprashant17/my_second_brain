@@ -160,6 +160,10 @@ app.delete('/api/v1/content',authentication,async (req,res)=>{
             _id: contentId
         })
 
+        if(!toBeDeleted){
+            return res.status(403).send("No document found!");
+        }
+
         return res.status(200).json({
             deleted: toBeDeleted
         });
