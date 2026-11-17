@@ -150,8 +150,29 @@ app.get('/api/v1/content',authentication,async (req,res)=>{
 
 });
 
-app.delete('/api/v1/content',(req,res)=>{
+app.delete('/api/v1/content',authentication,async (req,res)=>{
+    try{
+        const userId = res.locals.userId;
+        const contentId =  req.body.contentId;
 
+        const toBeDeleted = await contentModel.findOne({
+            userId:  userId,
+            _id: contentId
+        })
+        
+        await contentModel.deleteOne({
+            userId:  userId,
+            _id: contentId     
+        });
+
+        return res.status(200).json({
+            deleted: toBeDeleted
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server error 500!");
+    }
 });
 
 app.post('/api/v1/brain/share',(req,res)=>{
