@@ -155,15 +155,10 @@ app.delete('/api/v1/content',authentication,async (req,res)=>{
         const userId = res.locals.userId;
         const contentId =  req.body.contentId;
 
-        const toBeDeleted = await contentModel.findOne({
+        const toBeDeleted = await contentModel.findOneAndDelete({
             userId:  userId,
             _id: contentId
         })
-        
-        await contentModel.deleteOne({
-            userId:  userId,
-            _id: contentId     
-        });
 
         return res.status(200).json({
             deleted: toBeDeleted
