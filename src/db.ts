@@ -12,7 +12,15 @@ const userSchema = new mongoose.Schema({
         type: String ,
         unique: true
     },
-    password: String
+    password: String,
+    share: {
+        type:Boolean,
+        default: false
+    },
+    shareLink: {
+        type: String,
+        unique: true
+    }
 });
 
 const contentSchema = new mongoose.Schema({

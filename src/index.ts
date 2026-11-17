@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import {userModel,contentModel} from "./db.js";
 import {z} from 'zod';
 import dotenv from 'dotenv'
+import { randomUUID } from 'crypto';
 
 const app = express();
 
@@ -174,8 +175,60 @@ app.delete('/api/v1/content',authentication,async (req,res)=>{
     }
 });
 
-app.post('/api/v1/brain/share',(req,res)=>{
+app.post('/api/v1/brain/share',authentication,async (req,res)=>{
+    try{
+        const share = req.body.share;
+        const userId = res.locals.userId;
 
+        let user: any = await userModel.findOne({
+            _id: userId
+        });
+
+        if(!user){
+            return res.status(404).send("User not found!");
+        }
+
+        if(!share){
+            await userModel.findOneAndUpdate({
+                _id: userId
+            },{
+                share: false
+            });
+            return res.status(200).send("Sharing is disabled!");
+        }
+
+        user = await userModel.findOneAndUpdate({
+                _id: userId
+            },{
+                share: true
+            });
+
+        if(user.shareLink){
+            return res.status(200).json({
+                shareLink: user.shareLink
+            });
+        }
+        else{
+            const shareId = randomUUID();
+            let updatedUser = await userModel.findOneAndUpdate({
+                _id: userId
+            },{
+                shareLink: shareId
+            },{
+                new: true
+            });
+            user = updatedUser;
+        }
+
+        const link = `http://localhost:3000/api/v1/brain/${user.shareLink}`;
+
+        return res.status(200).json({
+            link: link
+        });
+    }
+    catch{
+        return res.status(500).send("Server Error 500!");
+    }
 });
 
 app.get('/api/v1/brain/:shareLink',(req,res)=>{
