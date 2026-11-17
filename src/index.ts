@@ -226,9 +226,34 @@ app.post('/api/v1/brain/share',authentication,async (req,res)=>{
     }
 });
 
-app.get('/api/v1/brain/:shareLink',(req,res)=>{
-    const shareLink = req.params.shareLink;
+app.get('/api/v1/brain/:shareLink',async (req,res)=>{
+    try{
+        const shareLink = req.params.shareLink;
 
+        const foundUser: any = await userModel.findOne({
+            shareLink: shareLink
+        });
+
+        if (!foundUser) {
+             return res.status(404).send("Invalid share link");
+        }
+
+        if (!foundUser.share) {
+             return res.status(404).send("Sharing is disbled");
+        }
+
+        const foundContent = await contentModel.find({
+            userId: foundUser._id
+        });
+
+        return res.status(200).json({
+            username: foundUser.username,
+            content: foundContent
+      });
+    }
+    catch{
+        return res.status(500).send("Server Error 500!");
+    }
 
 });
 
