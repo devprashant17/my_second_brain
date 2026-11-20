@@ -1,11 +1,18 @@
-import './App.css';
+import Sidebar from './components/sidebar';
+import Mainpage from './components/mainpage';
+import Navbar from './components/navbar';
+
 
 export default function App() {
-
   return (
     <div>
-      <h1>My Second Brain</h1>
+      <Navbar />
+      <div className='flex'>
+        <Sidebar />
+        <Mainpage/>
+      </div>
+
     </div>
-  )
+  );
 }
 
