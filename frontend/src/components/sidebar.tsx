@@ -1,11 +1,52 @@
+import dashboard from '../assets/dashboard.png';
+import content from '../assets/content.png';
+import tag from '../assets/hashtag.png';
+import shared from '../assets/shared.png';
+import fav from '../assets/fav.png';
+import category from '../assets/category.png';
+import menu from '../assets/menu.png';
+import { useState } from 'react';
+
 export default function Sidebar(){
+    const [open,setOpen] = useState(true);
+    const [selected,setSelected] = useState("dashboard");
+
     return(
-    <aside className="border-2 border-slate-900"> 
-        <ul>
-            <li>Dashboard</li>
-            <li>All Content</li>
-            <li>Tags</li>
-            <li>Shared Brain</li>
+    <aside className="fixed left-0 top-[64px] shadow-md p-4 h-screen"> 
+        {open && (<div className='flex justify-end m-2 mb-6 ' onClick={()=>{setOpen(!open)}}>
+            <img src={menu} className={`h-6 w-6 rounded-md `} />
+        </div>
+        )}
+        {!open && (<div className='flex items-center ml-4 mb-6' onClick={()=>{setOpen(!open)}}>
+            <img src={menu} className='h-6 w-6 pr-0 hover:bg-gray-100 rounded-md' />
+        </div>
+        )}
+
+        <ul className='flex-column h-1/2 justify-around '>
+            <div onClick={()=>{setSelected("dashboard"); setOpen(true)}} id="dashboard" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="dashboard"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={dashboard} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10'>Dashboard</li>)}
+            </div>
+            <div onClick={()=>{setSelected("all content"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="all content"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={content} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10 '>All Contents</li>)}
+            </div>
+            <div onClick={()=>{setSelected("categories"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="categories"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={category} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10 '>Categories</li>)}
+            </div>
+            <div onClick={()=>{setSelected("favourites"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="favourites"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={fav} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10 '>Favourites</li>)}
+            </div>
+            <div onClick={()=>{setSelected("tags"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="tags"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={tag} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10'>Tags</li>)}
+            </div>
+            <div onClick={()=>{setSelected("shared brain"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="shared brain"?"bg-gray-200":" hover:bg-gray-100"}`}>
+                <img src={shared} className="h-6 w-6 mr-4 m-2" />
+                {open && (<li className='p-2 pr-10 '>Shared Brain</li>)}
+            </div>
         </ul>
     </aside>
     );
