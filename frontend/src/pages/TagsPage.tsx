@@ -1,3 +1,9 @@
-export default function Tags(){
-    return <div>Tags</div>
+interface MainpageProps {
+  open: boolean;
+}
+
+export default function TagsPage({open}:MainpageProps){
+    return <div>
+        TagsPage
+    </div>
 }

@@ -1,3 +1,9 @@
-export default function Favourites(){
-    return <div>Favourites</div>
+interface MainpageProps {
+  open: boolean;
+}
+
+export default function Favourites({open}:MainpageProps){
+    return <div>
+        Favourites
+    </div>
 }

@@ -1,3 +1,9 @@
-export default function Sharedbrain(){
-    return <div>Sharedbrain</div>
+interface MainpageProps {
+  open: boolean;
+}
+
+export default function SharedBrain({open}:MainpageProps){
+    return <div>
+        SharedBrain
+    </div>
 }
