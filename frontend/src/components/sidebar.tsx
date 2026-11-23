@@ -7,22 +7,26 @@ import category from '../assets/category.png';
 import menu from '../assets/menu.png';
 import { useState } from 'react';
 
-export default function Sidebar(){
-    const [open,setOpen] = useState(true);
+interface SidebarProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Sidebar({ open, setOpen }: SidebarProps) {
     const [selected,setSelected] = useState("dashboard");
 
     return(
-    <aside className="fixed left-0 top-[64px] shadow-md p-4 h-screen"> 
-        {open && (<div className='flex justify-end m-2 mb-6 ' onClick={()=>{setOpen(!open)}}>
+    <aside className={`fixed left-0 top-16 z-40 shadow-md p-4 h-[calc(100vh-64px)] transition-all duration-300 ${open ? "w-64" : "w-20"}`}>
+        {open && (<div className='flex justify-end m-2 mb-6 cursor-pointer' onClick={()=>{setOpen(!open)}}>
             <img src={menu} className={`h-6 w-6 rounded-md `} />
         </div>
         )}
-        {!open && (<div className='flex items-center ml-4 mb-6' onClick={()=>{setOpen(!open)}}>
+        {!open && (<div className='flex items-center ml-4 mb-6 cursor-pointer' onClick={()=>{setOpen(!open)}}>
             <img src={menu} className='h-6 w-6 pr-0 hover:bg-gray-100 rounded-md' />
         </div>
         )}
 
-        <ul className='flex-column h-1/2 justify-around '>
+        <ul className='flex-column h-1/2 justify-around cursor-pointer'>
             <div onClick={()=>{setSelected("dashboard"); setOpen(true)}} id="dashboard" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="dashboard"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={dashboard} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10'>Dashboard</li>)}

@@ -31,7 +31,7 @@ function Dropdown(){
 }
 
 export default function Navbar(){
-    return <div className='fixed w-screen flex justify-between text-s p-2 pr-4 pl-4 shadow-sm '>
+    return <div className="fixed top-0 left-0 z-50 h-16 w-full flex items-center justify-between p-2 pr-4 pl-4 shadow-sm bg-white">
         <div id="navleft" className='flex'>
             <div className='p-2 mr-4'>
                 <img src={logo} className='h-8 w-8'/>
