@@ -16,7 +16,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
     const [selected,setSelected] = useState("dashboard");
 
     return(
-    <aside className={`fixed left-0 top-16 z-40 shadow-md p-4 h-[calc(100vh-64px)] transition-all duration-300 ${open ? "w-64" : "w-20"}`}>
+    <aside className={`fixed left-0 top-16 z-40 shadow-md p-4 h-[calc(100vh-64px)] transition-[width] duration-300 ease-in-out ${open ? "w-64" : "w-20"}`}>
         {open && (<div className='flex justify-end m-2 mb-6 cursor-pointer' onClick={()=>{setOpen(!open)}}>
             <img src={menu} className={`h-6 w-6 rounded-md `} />
         </div>
