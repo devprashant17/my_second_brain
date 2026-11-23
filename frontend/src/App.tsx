@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 import Dashboard from "./pages/Dashboard";
 import AllContent from "./pages/AllContent";
@@ -17,7 +18,6 @@ export default function App() {
     return (
         <BrowserRouter>
             <Navbar />
-
             <Sidebar open={open} setOpen={setOpen} />
 
             <Routes>
@@ -29,6 +29,7 @@ export default function App() {
                 <Route path="/tags" element={<TagsPage open={open} />} />
                 <Route path="/shared" element={<SharedBrain open={open} />} />
             </Routes>
+            <Footer />
         </BrowserRouter>
     );
 }

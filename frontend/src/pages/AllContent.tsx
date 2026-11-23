@@ -17,9 +17,9 @@ export default function Mainpage({ open }: MainpageProps){
                     <div className="flex justify-between">
                         <h1 className="ml-[2vw] mt-[2vh] text-[35px] font-bold">All Contents</h1>
                         <div className="flex ml-[2vw] mt-[2vh] text-[35px] ">
-                            {!gridview && (<img src={blackgrid} className="h-[29px] w-[29px] m-2 mr-1" onClick={()=>{setGridView(true)}} />)}
+                            {!gridview && (<img src={blackgrid} className="h-[29px] w-[29px] m-2 mr-1 opacity-20" onClick={()=>{setGridView(true)}} />)}
                             {gridview && (<img src={colorgrid} className="h-7 w-7 m-2" onClick={()=>{setGridView(true)}} />)}
-                            {gridview && (<img src={blacklist} className="h-9 w-7 m-1 mr-[3vw]" onClick={()=>{setGridView(false)}} />)}
+                            {gridview && (<img src={blacklist} className="h-9 w-7 m-1 mr-[3vw] opacity-20" onClick={()=>{setGridView(false)}} />)}
                             {!gridview && (<img src={colorlist} className="h-7 w-7 m-2 mr-[3vw]" onClick={()=>{setGridView(false)}} />)}                           
                         </div>
                     </div>
