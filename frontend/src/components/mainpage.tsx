@@ -1,3 +1,9 @@
+import { useState } from "react";
+import blackgrid from '../assets/blackgrid.png';
+import colorgrid from '../assets/colorgrid.png';
+import blacklist from '../assets/blacklist.png';
+import colorlist from '../assets/colorlist.png'
+
 interface MainpageProps {
   open: boolean;
 }
@@ -13,7 +19,7 @@ function Tags(props:any){
 }
 
 function PostCard(props:any){
-    return <div className="border-2 h-[35vh] w-1/3">
+    return <div className="m-10 shadow-md rounded-lg w-[30vw] p-6 ">
         <h1 className="text-xl font-bold mb-4">{props.title}</h1>
         <div className=" mb-4">Type: {props.type}</div>
         <div className=" mb-4">{props.description}</div>
@@ -25,33 +31,69 @@ function PostCard(props:any){
     </div>
 }
 export default function Mainpage({ open }: MainpageProps){
+    const [gridview,setGridView] = useState(true);
     return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-gray-50`}>
-        <div className="flex">
-            <PostCard title="How to find usability errors on your website!" 
-                type="Youtube"
-                description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                link="https://www.youtube.com/@karkisnexus"
-                tags={["UI/UX","Security","WEBDEV"]}
-            />
-            
-            <PostCard title="
-🔴 Live Talk with IOE 2082 Rank 1 | Toppers’ Strategy Revealed 🎓#ioe #entrance #topper #rank1" 
-                type="Youtube"
-                description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                link="https://www.youtube.com/watch?v=fWgo9KCQr9I&t=224s"
-                tags={["UI/UX","Security","WEBDEV"]}
-            />
+                <div className="ml-20">
+                    <div className="flex justify-between">
+                        <h1 className="ml-[2vw] mt-[2vh] text-[35px] font-bold">All Contents</h1>
+                        <div className="flex ml-[2vw] mt-[2vh] text-[35px] ">
+                            {!gridview && (<img src={blackgrid} className="h-[29px] w-[29px] m-2 mr-1" onClick={()=>{setGridView(true)}} />)}
+                            {gridview && (<img src={colorgrid} className="h-7 w-7 m-2" onClick={()=>{setGridView(true)}} />)}
+                            {gridview && (<img src={blacklist} className="h-9 w-7 m-1 mr-[3vw]" onClick={()=>{setGridView(false)}} />)}
+                            {!gridview && (<img src={colorlist} className="h-7 w-7 m-2 mr-[3vw]" onClick={()=>{setGridView(false)}} />)}                           
+                        </div>
+                    </div>
+                    <div className={`${gridview?"grid grid-cols-1 lg:grid-cols-2 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
+                        <PostCard title="How to find usability errors on your website!" 
+                            type="Youtube"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.youtube.com/@karkisnexus"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
                         
-            <PostCard title=" The most wanted free SVG user interface icons
-50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
-                type="Link"
-                description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                link="https://www.flaticon.com/search?word=three%20bars"
-                tags={["UI/UX","Security","WEBDEV"]}
-            />
-            
-        </div>
+                        <PostCard title="
+            🔴 Live Talk with IOE 2082 Rank 1 | Toppers’ Strategy Revealed 🎓#ioe #entrance #topper #rank1" 
+                            type="Youtube"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.youtube.com/watch?v=fWgo9KCQr9I&t=224s"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
+                                    
+                        <PostCard title=" The most wanted free SVG user interface icons
+            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
+                            type="Link"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.flaticon.com/search?word=three%20bars"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
 
+                        <PostCard title=" The most wanted free SVG user interface icons
+            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
+                            type="Link"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.flaticon.com/search?word=three%20bars"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
+
+                        <PostCard title=" The most wanted free SVG user interface icons
+            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
+                            type="Link"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.flaticon.com/search?word=three%20bars"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
+
+                        <PostCard title=" The most wanted free SVG user interface icons
+            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
+                            type="Link"
+                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
+                            link="https://www.flaticon.com/search?word=three%20bars"
+                            tags={["UI/UX","Security","WEBDEV"]}
+                        />
+                        
+                    </div>
+
+                 </div>
 
     </div>
 }
