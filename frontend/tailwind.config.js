@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Replaces the default `font-sans` (applies globally)
+        sans: ['"Manrope"', 'sans-serif'],
+        // Or adds a separate `font-manrope` utility class
+        manrope: ['"Manrope"', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }
