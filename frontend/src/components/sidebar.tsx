@@ -29,27 +29,27 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
         )}
 
         <ul className='flex-column h-1/2 justify-around cursor-pointer'>
-            <Link to="/dashboard" onClick={()=>{setSelected("dashboard"); setOpen(true)}} id="dashboard" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="dashboard"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="/dashboard" onClick={()=>{setSelected("dashboard"); setOpen(true)}} id="dashboard" className={`flex items-center p-1 pl-2  rounded-md ${selected==="dashboard"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={dashboard} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10'>Dashboard</li>)}
             </Link>
-            <Link to="/content" onClick={()=>{setSelected("all content"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="all content"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="/content" onClick={()=>{setSelected("all content"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="all content"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={content} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10 '>All Contents</li>)}
             </Link>
-            <Link to="categories" onClick={()=>{setSelected("categories"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="categories"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="categories" onClick={()=>{setSelected("categories"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="categories"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={category} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10 '>Categories</li>)}
             </Link>
-            <Link to="favourites" onClick={()=>{setSelected("favourites"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="favourites"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="favourites" onClick={()=>{setSelected("favourites"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="favourites"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={fav} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10 '>Favourites</li>)}
             </Link>
-            <Link to="tags" onClick={()=>{setSelected("tags"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="tags"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="tags" onClick={()=>{setSelected("tags"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="tags"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={tag} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10'>Tags</li>)}
             </Link>
-            <Link to="shared" onClick={()=>{setSelected("shared brain"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 hover:bg-gray-100 rounded-md ${selected==="shared brain"?"bg-gray-200":" hover:bg-gray-100"}`}>
+            <Link to="shared" onClick={()=>{setSelected("shared brain"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="shared brain"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={shared} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10 '>Shared Brain</li>)}
             </Link>

@@ -4,7 +4,7 @@ import linkedin from "../assets/linkedin.png";
 
 export default function Footer(){
     return <div>
-        <hr className="m-2" />
+        <hr className=" border-2 border-slate-300 m-2" />
         <div className="z-50 bg-white flex flex-col items-center">
             <div className="flex">
                 
