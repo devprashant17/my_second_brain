@@ -4,6 +4,7 @@ import downarrow from '../assets/down-arrow.png';
 import plus from '../assets/plus.png';
 import search from '../assets/search.png';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Dropdown(){
     const [open,setOpen] = useState(false);
@@ -32,7 +33,7 @@ function Dropdown(){
 
 export default function Navbar(){
     return <div className="fixed top-0 left-0 z-50 h-16 w-full flex items-center justify-between p-2 pr-4 pl-4 shadow-sm bg-white">
-        <div id="navleft" className='flex'>
+        <Link to="/dashboard" id="navleft" className='flex cursor-pointer '>
             <div className='p-2 mr-4'>
                 <img src={logo} className='h-8 w-8'/>
             </div>
@@ -40,7 +41,7 @@ export default function Navbar(){
                 <div className='font-bold'>My Second Brain</div>
                 <div className='text-slate-700 text-xs'>Store your brain</div>
             </div>
-        </div>
+        </Link>
         <div id="navright" className='flex items-center'>
             <div className='bg-[#e9ecef] text-slate-300 flex items-center  rounded-full p-2 pr-10 pl-8 '>
                 <img src={search} className='cursor-pointer h-4 w-4 mr-7'/>

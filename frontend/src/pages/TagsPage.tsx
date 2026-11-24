@@ -3,7 +3,7 @@ interface MainpageProps {
 }
 
 export default function TagsPage({open}:MainpageProps){
-    return <div>
+    return <div className="bg-[#EEEFE8]">
         TagsPage
     </div>
 }

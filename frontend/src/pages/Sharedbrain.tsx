@@ -3,7 +3,7 @@ interface MainpageProps {
 }
 
 export default function SharedBrain({open}:MainpageProps){
-    return <div>
+    return <div className="bg-[#EEEFE8]">
         SharedBrain
     </div>
 }

@@ -12,7 +12,7 @@ interface MainpageProps {
 
 export default function Mainpage({ open }: MainpageProps){
     const [gridview,setGridView] = useState(true);
-    return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-gray-50`}>
+    return <div className={`bg-[#EEEFE8] ${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-gray-50`}>
                 <div className="ml-20">
                     <div className="flex justify-between">
                         <h1 className="ml-[2vw] mt-[2vh] text-[35px] font-bold">Favourites</h1>
