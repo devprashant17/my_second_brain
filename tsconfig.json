@@ -40,5 +40,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "include": ["backend/**/*.ts"],
+"exclude": ["frontend", "node_modules", "dist"]
 }

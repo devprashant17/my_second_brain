@@ -3,15 +3,37 @@ import blackgrid from '../assets/blackgrid.png';
 import colorgrid from '../assets/colorgrid.png';
 import blacklist from '../assets/blacklist.png';
 import colorlist from '../assets/colorlist.png'
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
+import { BACKEND_URL } from '../config';
 
 interface MainpageProps {
   open: boolean;
 }
 
-
 export default function Mainpage({ open }: MainpageProps){
     const [gridview,setGridView] = useState(true);
+    const [contents, setContents] = useState<any[]>([]);
+
+    useEffect( ()=>{
+        async function getContents(){
+        const response = await fetch(`${BACKEND_URL}/api/v1/content`,{
+            headers:{
+                token: localStorage.getItem("token") || ""
+            }
+        });
+
+        console.log("Status:", response.status);
+
+        const data = await response.json();
+
+        setContents(data.content);
+        }
+        
+        getContents();
+
+    },[]);
+
+
     return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-gray-50`}>
                 <div className="ml-20">
                     <div className="flex justify-between">
@@ -24,53 +46,15 @@ export default function Mainpage({ open }: MainpageProps){
                         </div>
                     </div>
                     <div className={`${gridview?"grid grid-cols-1 lg:grid-cols-2 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
-                        <PostCard title="How to find usability errors on your website!" 
-                            type="Youtube"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.youtube.com/@karkisnexus"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-                        
-                        <PostCard title="
-            🔴 Live Talk with IOE 2082 Rank 1 | Toppers’ Strategy Revealed 🎓#ioe #entrance #topper #rank1" 
-                            type="Youtube"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.youtube.com/watch?v=fWgo9KCQr9I&t=224s"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-                                    
-                        <PostCard title=" The most wanted free SVG user interface icons
-            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
-                            type="Link"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! ConsequuntuLorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.flaticon.com/search?word=three%20bars"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-
-                        <PostCard title=" The most wanted free SVG user interface icons
-            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
-                            type="Link"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.flaticon.com/search?word=three%20bars"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-
-                        <PostCard title=" The most wanted free SVG user interface icons
-            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
-                            type="Link"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.flaticon.com/search?word=three%20bars"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-
-                        <PostCard title=" The most wanted free SVG user interface icons
-            50,400+ free, UI icons in 9 different styles. All fully editable and customizable for you to make them truly yours" 
-                            type="Link"
-                            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, consequuntur placeat? A, modi praesentium perspiciatis maiores laborum sunt eos voluptates! Consequuntur odit commodi illo nesciunt cum sed similique aut impedit!"
-                            link="https://www.flaticon.com/search?word=three%20bars"
-                            tags={["UI/UX","Security","WEBDEV"]}
-                        />
-                        
+                        {contents.map((content) => (
+                            <PostCard
+                                key={content._id}
+                                title={content.title}
+                                type={content.type}
+                                link={content.link}
+                                tags={content.tags}
+                            />
+                        ))}
                     </div>
 
                  </div>

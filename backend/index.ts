@@ -5,6 +5,7 @@ import {userModel,contentModel} from "./db.js";
 import {z} from 'zod';
 import dotenv from 'dotenv'
 import { randomUUID } from 'crypto';
+import cors from 'cors';
 
 const app = express();
 
@@ -14,6 +15,12 @@ const JWT_SECRET:any = process.env.JWT_SECRET;
 const uri:any = process.env.MONGO_URI;
 await mongoose.connect(uri);
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+    next();
+});
+
+app.use(cors());
 app.use(express.json());
 
 const signupSchema = z.object({
@@ -100,7 +107,8 @@ app.post('/api/v1/signin',async (req,res)=>{
             token: token
         });
     }
-    catch{
+    catch(err){
+
         return res.status(500).send("Server Error 500!")
     }
 });
