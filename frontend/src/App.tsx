@@ -13,6 +13,7 @@ import TagsPage from "./pages/TagsPage";
 import SharedBrain from "./pages/Sharedbrain";
 
 import { BACKEND_URL } from "./config";
+import SignIn from "./pages/signin";
 
 export default function App() {
     const [open, setOpen] = useState(true);
@@ -35,10 +36,12 @@ export default function App() {
              <button
     onClick={async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/`);
+            const response = await fetch(`${BACKEND_URL}/api/v1/signin`);
 
             console.log("Status:", response.status);
             console.log("Response:", await response.text());
+
+            
 
             if (response.ok) {
                 console.log("Connected successfully!");
@@ -53,6 +56,7 @@ export default function App() {
 >
     Test Backend
 </button>
+<SignIn />
         </BrowserRouter>
     );
 }
