@@ -7,7 +7,6 @@ import Footer from "./components/footer";
 
 import Dashboard from "./pages/Dashboard";
 import AllContent from "./pages/AllContent";
-import Categories from "./pages/Categories";
 import Favourites from "./pages/Favourites";
 import TagsPage from "./pages/TagsPage";
 import SharedBrain from "./pages/Sharedbrain";
@@ -36,13 +35,6 @@ export default function App() {
                         <Navbar />
                         <Sidebar open={open} setOpen={setOpen} />
                         <AllContent open={open} />
-                        <Footer />
-                    </>} />
-                <Route path="/categories" element={
-                    <>
-                        <Navbar />
-                        <Sidebar open={open} setOpen={setOpen} />
-                        <Categories open={open} />
                         <Footer />
                     </>} />
                 <Route path="/favourites" element={

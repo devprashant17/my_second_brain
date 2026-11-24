@@ -3,7 +3,6 @@ import content from '../assets/content.png';
 import tag from '../assets/hashtag.png';
 import shared from '../assets/shared.png';
 import fav from '../assets/fav.png';
-import category from '../assets/category.png';
 import menu from '../assets/menu.png';
 import { useState } from 'react';
 
@@ -36,10 +35,6 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             <Link to="/content" onClick={()=>{setSelected("all content"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="all content"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={content} className="h-6 w-6 mr-4 m-2" />
                 {open && (<li className='p-2 pr-10 '>All Contents</li>)}
-            </Link>
-            <Link to="categories" onClick={()=>{setSelected("categories"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="categories"?"bg-gray-200":" hover:bg-gray-100"}`}>
-                <img src={category} className="h-6 w-6 mr-4 m-2" />
-                {open && (<li className='p-2 pr-10 '>Categories</li>)}
             </Link>
             <Link to="favourites" onClick={()=>{setSelected("favourites"); setOpen(true)}} id="content" className={`flex items-center p-1 pl-2 rounded-md ${selected==="favourites"?"bg-gray-200":" hover:bg-gray-100"}`}>
                 <img src={fav} className="h-6 w-6 mr-4 m-2" />
