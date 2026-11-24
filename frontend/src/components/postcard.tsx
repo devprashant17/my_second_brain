@@ -55,23 +55,45 @@ function Tags(props:any){
 
 
 export default function PostCard(props:any){
-    return <div style={{borderTop: `6px solid ${props.color}`}} className="ml-7 m-10 shadow-md rounded-lg w-[21vw] p-6 pb-4 bg-[#F7F7F2] relative transition-all duration-100 ease-out hover:-translate-y-1 hover:shadow-md hover:z-3">
-        <div className='flex justify-between'>
-            <div className=" mb-4">{props.type}</div>
-            <div><Ellipsis/></div>
-        </div>
-        <h1 className="text-xl font-bold mb-4">{props.title}</h1>
-    
-        <Tags arr={props.tags} />
-                <hr className='mt-4 mb-4'/>
-        <div className='flex justify-between'>
-            <div className='text-[#757A70] text-[13px]'>notion.doc</div>
-            <div className='flex'>
-                <Clock5 className='text-[#757A70] h-3 w-3 mt-[3px] mr-2' />
-                <div className='text-[12px] text-[#757A70]'>{timeElapsed(props.createdAt)}</div>
-                <a href={props.link}><ExternalLink className='text-[#757A70] h-4 w-4 ml-2 ' /></a>
-            </div>
-        </div>
+    const url = new URL(props.link);
+
+    return <div style={{borderTop: `6px solid ${props.color}`}} className="flex flex-col justify-between ml-7 m-10 shadow-md rounded-lg w-[21vw] p-6 pb-4 bg-[#F7F7F2] relative transition-all duration-100 ease-out hover:-translate-y-1 hover:shadow-md hover:z-3">
+                <div>
+                    <div className='flex justify-between'>
+                    <div className='flex'>
+                        {(props.type==="Link")&&(<Link className='h-4 w-4 mt-[2px]'/>)}
+                        {(props.type==="Document")&&(<FileText className='h-4 w-4 mt-[1px]'/>)}
+                        {(props.type==="Youtube")&&(<img src={yt} className='h-4 w-4 mt-[2px]'/>)}
+                        {(props.type==="Tweet")&&(<img src={twitter} className='h-4 w-4 mt-[2px]'/>)}
+                        <div className="text-[14px] text-[#858A7F] ml-4 mb-4 ">{props.type}</div>
+                    </div>
+                    <Ellipsis className='cursor-pointer'/>
+                    </div>
+                    <h1 className="text-xl font-bold mb-4 ">{props.title}</h1>
+            
+                    <Tags arr={props.tags} />
+                </div>
+                <div className='h-[7vh]'>
+                    <hr className='mt-4 mb-4'/>
+                    <div className='flex justify-between mt-5'>
+                        <div className='flex'>
+                            <div className='flex'>
+                                {(props.type==="Link")&&(<Link className='h-2 w-2 mt-[2px] mt-[5px]'/>)}
+                                {(props.type==="Document")&&(<FileText className='h-2 w-2 mt-[1px] mt-[5px]'/>)}
+                                {(props.type==="Youtube")&&(<img src={yt} className='h-2 w-2 mt-[2px] mt-[5px]'/>)}
+                                {(props.type==="Tweet")&&(<img src={twitter} className='h-2 w-2 mt-[2px] mt-[5px]'/>)}
+                                
+                            </div>
+                            <div className='text-[#757A70] text-[13px] ml-2'>{url.hostname}</div>
+                        </div>
+                        
+                        <div className='flex'>
+                            <Clock5 className='text-[#757A70] h-3 w-3 mt-[3px] mr-2' />
+                            <div className='text-[12px] text-[#757A70]'>{timeElapsed(props.createdAt)}</div>
+                            <a href={props.link}><ExternalLink className='text-[#757A70] h-4 w-4 ml-2 ' /></a>
+                        </div>
+                    </div>
+                </div>
        
 
     </div>
