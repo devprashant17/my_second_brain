@@ -58,9 +58,9 @@ export default function SignUp(){
             <div id="leftdiv" className="h-screen w-[60vw] flex flex-col justify-center items-center  border-r border-r-slate-900 ">
                 <img src={brain} className="h-[30vh] w-[55vh] mb-[5vh]" />
                 <div className="text-[50px] font-bold">MY SECOND BRAIN</div>
-                <div className="text-[40px] font-bold mb-[5vh]">Store Your Brain</div>
-                <div className="text-[15px]">Join Thousands of People</div>
-                <div className="text-[15px]">and share your brains with each other</div>
+                <div className="text-[40px] font-bold mb-[5vh] text-[rgba(255,255,255,0.35)]">Store Your Brain</div>
+                <div className="text-[15px] text-[rgba(255,255,255,0.35)]" >Join Thousands of People</div>
+                <div className="text-[15px] text-[rgba(255,255,255,0.35)]">and share your brains with each other</div>
             </div>
             <div id="rightdiv" className="w-[40vw] flex flex-col">
                 <div className="flex h-[10vh] w-full mt-[3vw]  justify-end">
