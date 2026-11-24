@@ -97,7 +97,7 @@ export default function Dashboard({ open }: MainpageProps){
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>6 items in your collection</div>
                         </div>
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
-                        {contents.map((content) => (
+                        {[...contents].reverse().map((content) => (
                             <PostCard
                                 key={content._id}
                                 title={content.title}
