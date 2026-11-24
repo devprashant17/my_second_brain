@@ -37,11 +37,10 @@ export default function AllContent({ open }: MainpageProps){
     },[]);
 
     function SummaryCard(){
-        let total = 0 ;
         return <div className='flex items-center p-3 pr-5 pl-5 rounded-xl bg-[#F7F7F2] border-[2px] border-'>
             <img src={hero} className='h-7 w-7 mr-5'/>
             <div className='flex flex-col'>
-                <div className='font-bold'>{total}</div>
+                <div className='font-bold'>{contents.length}</div>
                 <div className='uppercase text-[13px] text-[#757A70]'>Ideas Collected</div>
             </div>
 
