@@ -93,7 +93,7 @@ export default function Dashboard({ open }: MainpageProps){
 
                     <hr className='border-1 border-gray-300 mt-7 ml-8 mr-14' />
                      <div>
-                            <div className=' ml-7 mt-3 font-bold text-[22px]'>Recent saves</div>
+                            <div className=' ml-7 mt-3 font-bold text-[22px]'>Recently saved</div>
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>6 items in your collection</div>
                         </div>
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
@@ -105,6 +105,7 @@ export default function Dashboard({ open }: MainpageProps){
                                 link={content.link}
                                 tags={content.tags}
                                 color={getColor(content._id)}
+                                createdAt={content.createdAt}
                             />
                         ))}
                     </div>

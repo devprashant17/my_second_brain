@@ -105,6 +105,7 @@ export default function AllContent({ open }: MainpageProps){
                                 link={content.link}
                                 tags={content.tags}
                                 color={getColor(content._id)}
+                                createdAt={content.createdAt}
                             />
                         ))}
                     </div>
