@@ -10,11 +10,12 @@ import { Link } from 'react-router-dom';
 
 interface MainpageProps {
   open: boolean;
+  contents: any[];
+  setContents:Function;
 }
 
-export default function Dashboard({ open }: MainpageProps){
+export default function Dashboard({ open, contents, setContents  }: MainpageProps){
     const [gridview,setGridView] = useState(true);
-    const [contents, setContents] = useState<any[]>([]);
 
     useEffect( ()=>{
         async function getContents(){
@@ -68,7 +69,7 @@ export default function Dashboard({ open }: MainpageProps){
 
     const recents = Math.min(contents.length, 6);
     
-    const result = contents.reverse().slice(0,6);
+    const result = [...contents].reverse().slice(0,6);
 
     return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-[#EEEFE8]`}>
                 <div className="ml-20">

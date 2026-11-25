@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Sidebar from "./components/sidebar";
@@ -14,8 +14,28 @@ import SharedBrain from "./pages/Sharedbrain";
 import SignIn from "./pages/signin";
 import SignUp from "./pages/signup";
 
+import { BACKEND_URL } from "./config";
+
 export default function App() {
     const [open, setOpen] = useState(true);
+    const [contents, setContents] = useState<any[]>([]);
+    
+    useEffect(() => {
+    console.log("5. App contents state updated:", contents);
+    }, [contents]);
+
+    async function refreshContent() {
+        const response = await fetch(`${BACKEND_URL}/api/v1/content`, {
+            headers: {
+                token: localStorage.getItem("token") || ""
+            }
+        });
+    
+        const data = await response.json();
+
+        setContents(data.content);
+        console.log(contents);
+     }
 
     return (
         <BrowserRouter>
@@ -25,37 +45,37 @@ export default function App() {
                 <Route path="/signup" element={ <SignUp /> } />
                 <Route path="/dashboard" element={
                     <>
-                        <Navbar />
+                        <Navbar  refreshContent={refreshContent}/>
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Dashboard open={open} />
+                        <Dashboard open={open}  contents={contents} setContents={setContents}/>
                         <Footer />
                     </>} />
                 <Route path="/content" element={
                     <>
-                        <Navbar />
+                        <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <AllContent open={open} />
+                        <AllContent open={open}  contents={contents} setContents={setContents} />
                         <Footer />
                     </>} />
                 <Route path="/favourites" element={
                     <>
-                        <Navbar />
+                        <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Favourites open={open} />
+                        <Favourites open={open}  contents={contents} setContents={setContents}/>
                         <Footer />
                     </>} />
                 <Route path="/tags" element={
                     <>
-                        <Navbar />
-                        <Sidebar open={open} setOpen={setOpen} />
-                        <TagsPage open={open} />
+                        <Navbar  refreshContent={refreshContent} />
+                        <Sidebar open={open} setOpen={setOpen}  />
+                        <TagsPage open={open} contents={contents} setContents={setContents}/>
                         <Footer />
                     </>} />
                 <Route path="/shared" element={
                     <>
-                        <Navbar />
+                        <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <SharedBrain open={open} />
+                        <SharedBrain open={open}  contents={contents} setContents={setContents}/>
                         <Footer />
                     </>} />
             </Routes> 

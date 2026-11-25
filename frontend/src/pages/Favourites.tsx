@@ -7,10 +7,12 @@ import { useState } from 'react';
 
 interface MainpageProps {
   open: boolean;
+  contents: any[];
+  setContents:Function;
 }
 
 
-export default function Mainpage({ open }: MainpageProps){
+export default function Mainpage({ open, contents, setContents }: MainpageProps){
     const [gridview,setGridView] = useState(true);
     return <div className={`bg-[#EEEFE8] ${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-gray-50`}>
                 <div className="ml-20">

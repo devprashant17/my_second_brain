@@ -9,13 +9,14 @@ import { BACKEND_URL } from '../config';
 
 interface MainpageProps {
   open: boolean;
+  contents: any[];
+  setContents:Function;
 }
 
 
 
-export default function AllContent({ open }: MainpageProps){
+export default function AllContent({ open, contents, setContents }: MainpageProps){
     const [gridview,setGridView] = useState(true);
-    const [contents, setContents] = useState<any[]>([]);
 
     useEffect( ()=>{
         async function getContents(){
