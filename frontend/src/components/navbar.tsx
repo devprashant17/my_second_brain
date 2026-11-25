@@ -1,10 +1,10 @@
 import logo from '../assets/hero.png';
 import user from '../assets/user.png';
 import downarrow from '../assets/down-arrow.png';
-import plus from '../assets/plus.png';
 import search from '../assets/search.png';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
 function Dropdown(){
     const [open,setOpen] = useState(false);
@@ -47,8 +47,8 @@ export default function Navbar(){
                 <img src={search} className='cursor-pointer h-4 w-4 mr-7'/>
                 <input placeholder='Search content' className='bg-[#e9ecef] text-slate-900 focus:border-none focus:outline-none'/>
             </div>
-            <div className='cursor-pointer shadow-md rounded-full pl-5 pr-5 pt-1 pb-1 ml-8 flex items-center bg-[#ffc300]'>Create
-                <img src={plus} className=' ml-2 h-3 w-3' />
+                
+                <div className='cursor-pointer shadow-md rounded-xl pl-4 pr-5 pt-2 pb-2 ml-8 flex items-center bg-[#171916] hover:opacity-[90%] hover:shadow-md text-[#F5F6EF]'><Plus className=' mr-2 h-5 w-5' />Add Content  
             </div>
             <div id="profile" className='flex items-center m-2 ml-20'>
                 <img src={user} className='h-8 w-8 flex items-center rounded-full border-2 border-[#ffc300]'/>
