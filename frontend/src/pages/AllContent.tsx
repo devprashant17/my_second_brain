@@ -108,6 +108,13 @@ export default function AllContent({ open, contents, setContents }: MainpageProp
                                 createdAt={content.createdAt}
                                 id={content._id}
                                 fav={content.fav}
+                                onFavChange={(id: string, fav: boolean) => {
+                                        setContents(prev =>
+                                        prev.map(item =>
+                                            item._id === id ? { ...item, fav } : item
+                                        )
+                                    );
+                                }}
                             />
                         ))}
                     </div>

@@ -4,37 +4,19 @@ import colorgrid from '../assets/colorgrid.png';
 import blacklist from '../assets/blacklist.png';
 import colorlist from '../assets/colorlist.png'
 import hero from '../assets/hero.png';
-import { useEffect,useState } from 'react';
-import { BACKEND_URL } from '../config';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface MainpageProps {
   open: boolean;
   contents: any[];
-  setContents:Function;
+  setContents: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-export default function Dashboard({ open, contents, setContents  }: MainpageProps){
+export default function Dashboard({ open, contents, setContents   }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
-    useEffect( ()=>{
-        async function getContents(){
-        const response = await fetch(`${BACKEND_URL}/api/v1/content`,{
-            headers:{
-                token: localStorage.getItem("token") || ""
-            }
-        });
-
-        console.log("Status:", response.status);
-
-        const data = await response.json();
-
-        setContents(data.content);
-        }
-        
-        getContents();
-
-    },[]);
+    
 
     function SummaryCard(){
         return <div className='flex items-center p-3 pr-5 pl-5 rounded-xl bg-[#F7F7F2] border-[2px] border-'>
@@ -100,17 +82,26 @@ export default function Dashboard({ open, contents, setContents  }: MainpageProp
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>{recents} items in your collection</div>
                         </div>
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
-                        {result.map((content) => (
-                            <PostCard
-                                key={content._id}
-                                title={content.title}
-                                type={content.type}
-                                link={content.link}
-                                tags={content.tags}
-                                color={getColor(content._id)}
-                                createdAt={content.createdAt}
-                            />
-                        ))}
+                        {result.map(content => (
+    <PostCard
+        key={content._id}
+        title={content.title}
+        type={content.type}
+        link={content.link}
+        tags={content.tags}
+        color={getColor(content._id)}
+        createdAt={content.createdAt}
+        id={content._id}
+        fav={content.fav}
+        onFavChange={(id: string, fav: boolean) => {
+            setContents(prev =>
+                prev.map(item =>
+                    item._id === id ? { ...item, fav: fav } : item
+                )
+            );
+        }}
+    />
+))}
                     </div>
 
                  </div>
