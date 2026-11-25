@@ -34,7 +34,8 @@ const contentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }
+    },
+    fav: Boolean
 },
 {
     timestamps: true

@@ -19,10 +19,6 @@ import { BACKEND_URL } from "./config";
 export default function App() {
     const [open, setOpen] = useState(true);
     const [contents, setContents] = useState<any[]>([]);
-    
-    useEffect(() => {
-    console.log("5. App contents state updated:", contents);
-    }, [contents]);
 
     async function refreshContent() {
         const response = await fetch(`${BACKEND_URL}/api/v1/content`, {
@@ -37,6 +33,10 @@ export default function App() {
         console.log(contents);
      }
 
+    useEffect(() => {
+            refreshContent();
+        }, []);
+
     return (
         <BrowserRouter>
             <Routes>
@@ -47,7 +47,7 @@ export default function App() {
                     <>
                         <Navbar  refreshContent={refreshContent}/>
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Dashboard open={open}  contents={contents} setContents={setContents}/>
+                        <Dashboard open={open}  contents={contents}  setContents={setContents}/>
                         <Footer />
                     </>} />
                 <Route path="/content" element={

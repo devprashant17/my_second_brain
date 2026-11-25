@@ -3,9 +3,13 @@ import { Clock5 } from 'lucide-react';
 import { ExternalLink } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { Link } from 'lucide-react';
+import { Heart } from 'lucide-react';
+
 import yt from '../assets/youtube.png';
 import twitter from '../assets/twitter.png';
 import { useState } from 'react';
+
+import { BACKEND_URL } from '../config';
 
 function timeElapsed(date:any){
     const now = Date.now();
@@ -57,6 +61,40 @@ export default function PostCard(props:any){
     const [open,setOpen] = useState(false);
     const url = new URL(props.link);
 
+    const [fav, setFav] = useState(props.fav || false);
+
+async function setFavState(val: boolean) {
+    console.log("Heart clicked!");
+    console.log("New favorite value:", val);
+    console.log("Content ID:", props.id);
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/v1/content/favorite`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                token: localStorage.getItem("token") || ""
+            },
+            body: JSON.stringify({
+                contentId: props.id,
+                fav: val
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.log(data.message);
+            return;
+        }
+
+        setFav(val);
+        props.onFavChange(props.id, val);
+    }
+    catch (err) {
+        console.log("Error updating favorite:", err);
+    }
+}
+
     return <div style={{borderTop: `6px solid ${props.color}`}} className="flex flex-col justify-between ml-7 m-10 shadow-md rounded-lg w-[21vw] p-6 pb-4 bg-[#F7F7F2] relative transition-all duration-100 ease-out hover:-translate-y-1 hover:shadow-md hover:z-3">
                 <div>
                     <div className='flex justify-between'>
@@ -67,7 +105,12 @@ export default function PostCard(props:any){
                             {(props.type==="Tweet")&&(<img src={twitter} className='h-4 w-4 mt-[2px]'/>)}
                             <div className="text-[14px] text-[#858A7F] ml-4 mb-4 ">{props.type}</div>
                         </div>
-                        <Ellipsis onClick={()=>{setOpen(!open)}} className='cursor-pointer'/>
+                        <div className='flex'>
+                            {!fav ? 
+                            ( <Heart onClick={() => setFavState(true)} className='mr-2 h-5 w-5 cursor-pointer' />) : 
+                            ( <Heart onClick={() => setFavState(false)} className='mr-2 h-5 w-5 cursor-pointer text-red-500 fill-red-500'/>)}
+                            <Ellipsis onClick={()=>{setOpen(!open)}} className='cursor-pointer'/>
+                        </div>
                             
                     </div>
                     <section className='relative flex'>

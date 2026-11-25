@@ -123,7 +123,8 @@ app.post('/api/v1/content',authentication,async (req,res)=>{
             link: content.link,
             title: content.title,
             tags: content.tags,
-            userId: userId
+            userId: userId,
+            fav: false
         });
 
         return res.status(200).json({
@@ -136,6 +137,44 @@ app.post('/api/v1/content',authentication,async (req,res)=>{
     }
     
 
+});
+
+app.put("/api/v1/content/favorite", authentication, async (req, res) => {
+    try {
+        const contentId = req.body.contentId;
+        const fav = req.body.fav;
+        const userId = res.locals.userId;
+
+        const updatedContent = await contentModel.findOneAndUpdate(
+            {
+                _id: contentId,
+                userId: userId
+            },
+            {
+                fav: fav
+            },
+            {
+                returnDocument: 'after' 
+            }
+        );
+
+        if (!updatedContent) {
+            return res.status(404).json({
+                message: "Content not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Favorite updated successfully",
+            content: updatedContent
+        });
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Server error"
+        });
+    }
 });
 
 app.get('/api/v1/content',authentication,async (req,res)=>{
