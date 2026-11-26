@@ -78,13 +78,25 @@ app.post('/api/v1/signup',async (req,res)=>{
             message:"You are signed up!"
         })        
     }
-    catch(err:any){
-        if(err.code==11000){
-          return res.status(403).send("Username taken!")  
-        }
+    // catch(err:any){
+    //     if(err.code==11000){
+    //       return res.status(403).send("Username taken!")  
+    //     }
  
-        return res.status(500).send("Server Error 500!")
+    //     return res.status(500).send("Server Error 500!")
+    // }
+    catch (err: any) {
+    console.log("FULL ERROR:", err);
+    console.log("ERROR CODE:", err.code);
+    console.log("KEY PATTERN:", err.keyPattern);
+    console.log("KEY VALUE:", err.keyValue);
+
+    if (err.code === 11000) {
+        return res.status(403).send("Username taken!");
     }
+
+    return res.status(500).send("Server Error 500!");
+}
 });
 
 app.post('/api/v1/signin',async (req,res)=>{
@@ -111,6 +123,27 @@ app.post('/api/v1/signin',async (req,res)=>{
 
         return res.status(500).send("Server Error 500!")
     }
+});
+
+app.get('/api/v1/username',authentication,async (req,res)=>{
+    try{
+        const userId = res.locals.userId;
+
+        const user = await userModel.findOne({
+            _id: userId
+        });
+
+
+        return res.status(200).json({
+            username: user?.username
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server Error!");
+    }
+    
+
 });
 
 app.post('/api/v1/content',authentication,async (req,res)=>{

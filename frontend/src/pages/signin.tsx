@@ -6,7 +6,11 @@ import brain from '../assets/brain.png'
  
 import { Eye, EyeOff } from "lucide-react";
 
-export default function SignIn(){
+interface SignInProps {
+    onSignIn: () => void;
+}
+
+export default function SignIn({ onSignIn }: SignInProps) {
     const [username,setUsername] = useState(""); 
     const [password,setPassword] = useState("");
     const [correctCredentials,setCorrectCredentials] = useState(true);
@@ -32,6 +36,7 @@ export default function SignIn(){
                 setCorrectCredentials(true);
                 const data = await response.json();
                 localStorage.setItem("token",data.token);
+                onSignIn();
                 console.log("Signed In Successfully!");
 
                 navigate("/dashboard");

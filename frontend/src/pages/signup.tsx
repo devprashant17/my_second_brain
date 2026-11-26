@@ -33,7 +33,7 @@ export default function SignUp(){
                 localStorage.setItem("token",data.token);
                 console.log("Signed Up Successfully!");
 
-                navigate("/dashboard");
+                navigate("/");
             }
             else if(response.status == 411){
                 setResponseCode(411);

@@ -76,37 +76,34 @@ export default function PostCard(props:any){
 
     const [fav, setFav] = useState(props.fav || false);
 
-async function setFavState(val: boolean) {
-    console.log("Heart clicked!");
-    console.log("New favorite value:", val);
-    console.log("Content ID:", props.id);
-    try {
-        const response = await fetch(`${BACKEND_URL}/api/v1/content/favorite`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                token: localStorage.getItem("token") || ""
-            },
-            body: JSON.stringify({
-                contentId: props.id,
-                fav: val
-            })
-        });
+    async function setFavState(val: boolean) {
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/v1/content/favorite`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.getItem("token") || ""
+                },
+                body: JSON.stringify({
+                    contentId: props.id,
+                    fav: val
+                })
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (!response.ok) {
-            console.log(data.message);
-            return;
+            if (!response.ok) {
+                console.log(data.message);
+                return;
+            }
+
+            setFav(val);
+            props.onFavChange(props.id, val);
         }
-
-        setFav(val);
-        props.onFavChange(props.id, val);
+        catch (err) {
+            console.log("Error updating favorite:", err);
+        }
     }
-    catch (err) {
-        console.log("Error updating favorite:", err);
-    }
-}
 
     return <div style={{borderTop: `6px solid ${props.color}`}} className="flex flex-col justify-between ml-7 m-10 shadow-md rounded-lg w-[21vw] p-6 pb-4 bg-[#F7F7F2] relative transition-all duration-100 ease-out hover:-translate-y-1 hover:shadow-md hover:z-3">
                 <div>

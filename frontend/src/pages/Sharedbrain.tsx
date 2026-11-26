@@ -13,10 +13,23 @@ interface MainpageProps {
   setContents: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
+interface Item {
+  _id: string;
+  title: string;
+  type: string;
+  link: string;
+  tags: string[];
+  userId: string;
+  fav: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function SharedBrain({ open, contents, setContents   }: MainpageProps){
     const [gridview,setGridView] = useState(true);
-    const [username,setUsername] = useState(null);
+    const [username, setUsername] = useState<string | null>(null);
     const [wrongShareLink,setWrongShareLink] = useState(false);
+    const [sharedContents,setSharedContents] = useState<Item[]>([]);
 
     const sharelinkRef = useRef<HTMLInputElement>(null);
 
@@ -26,7 +39,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
         if(shareLink ==""){
             setUsername(null);
             setWrongShareLink(false);
-            setContents([]);
+            setSharedContents([]);
         }
         else{
             const response =  await fetch(`${BACKEND_URL}/api/v1/brain/${shareLink}`,{
@@ -40,7 +53,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
 
             if (response.ok) {
                 setWrongShareLink(false);
-                setContents(data.content);
+                setSharedContents(data.content);
                 setUsername(data.username);
             }
             if(response.status==404){
@@ -71,7 +84,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
         return colors[hash % colors.length];
     }
     
-    const result = [...contents].reverse();
+    const result = [...sharedContents].reverse();
 
     return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-[#EEEFE8]`}>
                 <div className="ml-20">
@@ -103,7 +116,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
                     {(!wrongShareLink && !username ) && (<div className='flex justify-center mt-[40vh] ml-[35px] text-[25px] text-[#757A70]'>Where's the share link?</div>)}
                     {wrongShareLink && (<div className='flex justify-center mt-[40vh] text-[25px] ml-[35px] text-[#757A70]'>Wrong share link!</div>)}
                     {!wrongShareLink && (<div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
-                        {result.map(content => (
+                        {(sharedContents.length!=0) && (result.map(content => (
                             <PostCard
                                 key={content._id}
                                 title={content.title}
@@ -116,7 +129,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
                                 fav={content.fav}
                                 
                             />
-                        ))}
+                        )))}
                 </div>)}
 
             </div>

@@ -24,6 +24,7 @@ export default function App() {
     async function refreshContent() {
         const response = await fetch(`${BACKEND_URL}/api/v1/content`, {
             headers: {
+                "Content-Type": "application/json",
                 token: localStorage.getItem("token") || ""
             }
         });
@@ -37,6 +38,7 @@ export default function App() {
     async function refreshFavoriteContent() {
         const favresponse = await fetch(`${BACKEND_URL}/api/v1/content/favorite`, {
             headers: {
+                "Content-Type": "application/json",
                 token: localStorage.getItem("token") || ""
             }
         });
@@ -47,6 +49,13 @@ export default function App() {
         setFavContents(favdata.content);
         console.log(favcontents);
     }
+
+    useEffect(() => {
+    console.log("Stored token:", localStorage.getItem("token"));
+
+    refreshContent();
+    refreshFavoriteContent();
+}, []);
 
     function handleFavChange(id: string, fav: boolean) {
         // Update the main feed
@@ -82,16 +91,22 @@ export default function App() {
         });
     }
 
+    const [authToken, setAuthToken] = useState<string | null>(
+    () => localStorage.getItem("token")
+    );
+
     useEffect(() => {
+        if (!authToken) return;
+
             refreshContent();
             refreshFavoriteContent();
-        }, []);
+        }, [authToken]);
 
     return (
         <BrowserRouter>
             <Routes>
 
-                <Route path="/" element={<SignIn />} />
+                <Route path="/" element={<SignIn onSignIn={() => setAuthToken(localStorage.getItem("token"))}/>} />
                 <Route path="/signup" element={ <SignUp /> } />
                 <Route path="/dashboard" element={
                     <>

@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     },
     shareLink: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     }
 });
 
