@@ -26,7 +26,7 @@ function timeElapsed(date:any){
 
     const hours = Math.floor(minutes/60);
 
-    if(hours<60) 
+    if(hours<24) 
         return `${hours} hours ago`;
 
     const days = Math.floor(hours/24);
@@ -36,14 +36,12 @@ function timeElapsed(date:any){
 
     const months = Math.floor(days/30);
 
-    if(months<60) 
+    if(months<12) 
         return `${months} months ago`;
 
-    const years = Math.floor(months/60);
+    const years = Math.floor(months/12);
 
-    if(years<60) 
-        return `${years} years ago`;
-
+    return `${years} years ago`;
 }
 
 function Tags(props:any){
