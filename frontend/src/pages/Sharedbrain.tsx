@@ -115,6 +115,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
                     <hr className='border-1 border-gray-300 mt-7 ml-8 mr-14' />
                     {(!wrongShareLink && !username ) && (<div className='flex justify-center mt-[40vh] ml-[35px] text-[25px] text-[#757A70]'>Where's the share link?</div>)}
                     {wrongShareLink && (<div className='flex justify-center mt-[40vh] text-[25px] ml-[35px] text-[#757A70]'>Wrong share link!</div>)}
+                    {(username && !wrongShareLink && result.length===0) && (<div className='flex justify-center mt-[40vh] text-[25px] ml-[35px] text-[#757A70]'>[ Empty Brain ]</div>)}
                     {!wrongShareLink && (<div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
                         {(sharedContents.length!=0) && (result.map(content => (
                             <PostCard

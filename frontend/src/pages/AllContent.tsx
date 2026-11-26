@@ -85,6 +85,7 @@ export default function AllContent({ open, contents, setContents, handleFavChang
                             <div className=' ml-7 mt-3 font-bold text-[22px]'>Everything you've saved</div>
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>Go through your saved posts.</div>
                         </div>
+                    {( contents.length==0) && (<div className='flex justify-center mt-[30vh] text-[25px] ml-[35px] text-[#757A70]'>[ Empty Brain ]</div>)}
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
                         {contents.map((content) => (
                             <PostCard

@@ -66,6 +66,7 @@ export default function Favourite({ open, contents, favcontents, handleFavChange
                             <div className=' ml-7 mt-3 font-bold text-[22px]'>Favourite Ones</div>
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>{recents} items in your collection</div>
                         </div>
+                    {(result.length==0) && (<div className='flex justify-center mb-[10vh] mt-[30vh] text-[25px] ml-[35px] text-[#757A70]'>[ Empty Brain ]</div>)}
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
                         {result.map(content => (
     <PostCard
