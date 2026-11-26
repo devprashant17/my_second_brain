@@ -23,24 +23,30 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
     async function fetchsharedbrain(){
         const shareLink = sharelinkRef.current?.value;
 
-        const response =  await fetch(`${BACKEND_URL}/api/v1/brain/${shareLink}`,{
-            method:"GET",
-            headers:{
-                "Content-Type": "application/json",
-            }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
+        if(shareLink ==""){
+            setUsername(null);
             setWrongShareLink(false);
-            setContents(data.content);
-            setUsername(data.username);
+            setContents([]);
         }
-        if(response.status==404){
-            setWrongShareLink(true);
-        }
+        else{
+            const response =  await fetch(`${BACKEND_URL}/api/v1/brain/${shareLink}`,{
+                method:"GET",
+                headers:{
+                    "Content-Type": "application/json",
+                }
+            });
 
+            const data = await response.json();
+
+            if (response.ok) {
+                setWrongShareLink(false);
+                setContents(data.content);
+                setUsername(data.username);
+            }
+            if(response.status==404){
+                setWrongShareLink(true);
+            }
+        }
 
     }
 
