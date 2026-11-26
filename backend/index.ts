@@ -146,6 +146,27 @@ app.get('/api/v1/username',authentication,async (req,res)=>{
 
 });
 
+app.get('/api/v1/tags',authentication,async (req,res)=>{
+    try{
+        const userId = res.locals.userId;
+
+        const content = await contentModel.find({
+            userId: userId
+        });
+
+
+        return res.status(200).json({
+            content: content
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server Error!");
+    }
+    
+
+});
+
 app.post('/api/v1/content',authentication,async (req,res)=>{
     try{
         const content:any = req.body;
