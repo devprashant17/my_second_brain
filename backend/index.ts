@@ -302,7 +302,9 @@ app.get('/api/v1/brain/:shareLink',async (req,res)=>{
         });
 
         if (!foundUser) {
-             return res.status(404).send("Invalid share link");
+             return res.status(404).json({
+                msg: "Invalid share link"
+        });
         }
 
         if (!foundUser.share) {
