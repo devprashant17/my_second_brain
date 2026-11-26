@@ -19,6 +19,7 @@ import { BACKEND_URL } from "./config";
 export default function App() {
     const [open, setOpen] = useState(true);
     const [contents, setContents] = useState<any[]>([]);
+    const [favcontents, setFavContents] = useState<any[]>([]);
 
     async function refreshContent() {
         const response = await fetch(`${BACKEND_URL}/api/v1/content`, {
@@ -31,10 +32,59 @@ export default function App() {
 
         setContents(data.content);
         console.log(contents);
-     }
+    }
+
+    async function refreshFavoriteContent() {
+        const favresponse = await fetch(`${BACKEND_URL}/api/v1/content/favorite`, {
+            headers: {
+                token: localStorage.getItem("token") || ""
+            }
+        });
+    
+        const favdata = await favresponse.json();
+
+        console.log("Favorite API response:", favdata);
+        setFavContents(favdata.content);
+        console.log(favcontents);
+    }
+
+    function handleFavChange(id: string, fav: boolean) {
+        // Update the main feed
+        setContents((prev: any[]) =>
+            prev.map((item: any) =>
+                item._id === id ? { ...item, fav } : item
+            )
+        );
+
+        // Update the favorites feed
+        setFavContents((prev: any[]) => {
+            if (!fav) {
+                return prev.filter((item: any) => item._id !== id);
+            }
+
+            // Get the updated content from the main feed
+            const content = contents.find((item: any) => item._id === id);
+
+            if (!content) return prev;
+
+            const updatedContent = { ...content, fav: true };
+
+            // If already present, update it; otherwise add it
+            const exists = prev.some((item: any) => item._id === id);
+
+            if (exists) {
+                return prev.map((item: any) =>
+                    item._id === id ? updatedContent : item
+                );
+            }
+
+            return [...prev, updatedContent];
+        });
+    }
 
     useEffect(() => {
             refreshContent();
+            refreshFavoriteContent();
         }, []);
 
     return (
@@ -47,21 +97,21 @@ export default function App() {
                     <>
                         <Navbar  refreshContent={refreshContent}/>
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Dashboard open={open}  contents={contents}  setContents={setContents}/>
+                        <Dashboard open={open}  contents={contents}  setContents={setContents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/content" element={
                     <>
                         <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <AllContent open={open}  contents={contents} setContents={setContents} />
+                        <AllContent open={open}  contents={contents} setContents={setContents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/favourites" element={
                     <>
                         <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Favourites open={open}  contents={contents} setContents={setContents}/>
+                        <Favourites open={open} contents={contents}  favcontents={favcontents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/tags" element={

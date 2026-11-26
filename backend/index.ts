@@ -177,6 +177,26 @@ app.put("/api/v1/content/favorite", authentication, async (req, res) => {
     }
 });
 
+app.get("/api/v1/content/favorite", authentication, async (req, res) => {
+    try{
+        const userId = res.locals.userId;
+
+        const allContents = await contentModel.find({
+            userId: userId,
+            fav: true
+        })
+
+        return res.status(200).json({
+            content: allContents
+        });
+    }
+
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server error 500!");
+    }
+});
+
 app.get('/api/v1/content',authentication,async (req,res)=>{
     try{
         const userId = res.locals.userId;

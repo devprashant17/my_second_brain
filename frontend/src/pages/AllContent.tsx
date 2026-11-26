@@ -8,14 +8,15 @@ import { useEffect,useState } from 'react';
 import { BACKEND_URL } from '../config';
 
 interface MainpageProps {
-  open: boolean;
-  contents: any[];
-  setContents:Function;
+    open: boolean;
+    contents: any[];
+    setContents: React.Dispatch<React.SetStateAction<any[]>>;
+    handleFavChange: (id: string, fav: boolean) => void;
 }
 
 
 
-export default function AllContent({ open, contents, setContents }: MainpageProps){
+export default function AllContent({ open, contents, setContents, handleFavChange }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
     useEffect( ()=>{
@@ -108,13 +109,7 @@ export default function AllContent({ open, contents, setContents }: MainpageProp
                                 createdAt={content.createdAt}
                                 id={content._id}
                                 fav={content.fav}
-                                onFavChange={(id: string, fav: boolean) => {
-                                        setContents(prev =>
-                                        prev.map(item =>
-                                            item._id === id ? { ...item, fav } : item
-                                        )
-                                    );
-                                }}
+                                onFavChange={handleFavChange}
                             />
                         ))}
                     </div>

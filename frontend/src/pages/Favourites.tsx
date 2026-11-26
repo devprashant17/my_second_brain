@@ -10,10 +10,11 @@ import { Link } from 'react-router-dom';
 interface MainpageProps {
   open: boolean;
   contents: any[];
-  setContents: React.Dispatch<React.SetStateAction<any[]>>;
+  favcontents: any[];
+  handleFavChange: (id: string, fav: boolean) => void;
 }
 
-export default function Dashboard({ open, contents, setContents   }: MainpageProps){
+export default function Favourite({ open, contents, favcontents, handleFavChange   }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
     
@@ -49,9 +50,9 @@ export default function Dashboard({ open, contents, setContents   }: MainpagePro
         return colors[hash % colors.length];
     }
 
-    const recents = Math.min(contents.length, 6);
+    const recents = Math.min(favcontents.length, 6);
     
-    const result = [...contents].reverse().slice(0,6);
+    const result = [...favcontents].reverse().slice(0,6);
 
     return <div className={`${open?"ml-64":"ml-20"} mt-16 min-h-[calc(100vh-64px)] flex-1 bg-[#EEEFE8]`}>
                 <div className="ml-20">
@@ -63,7 +64,7 @@ export default function Dashboard({ open, contents, setContents   }: MainpagePro
                         })}
                     </div>
                     <div className="flex justify-between">
-                        <div className="ml-[2vw] text-[35px] font-bold">Welcome back, Prashant</div>
+                        <div className="ml-[2vw] text-[35px] font-bold">Welcome to favorites!</div>
                         <div className='flex '>
                             <div className='mt-2'><SummaryCard /></div>
                             <div className="flex ml-[2vw] mt-[2vh] text-[35px] ">
@@ -74,11 +75,11 @@ export default function Dashboard({ open, contents, setContents   }: MainpagePro
                             </div>  
                         </div>
                     </div>
-                    <div className='flex ml-[35px] text-[#757A70]'>Here’s what you’ve been thinking about lately.</div>
+                    <div className='flex ml-[35px] text-[#757A70]'>Here are your favourite ones</div>
 
                     <hr className='border-1 border-gray-300 mt-7 ml-8 mr-14' />
                      <div>
-                            <div className=' ml-7 mt-3 font-bold text-[22px]'>Recently saved</div>
+                            <div className=' ml-7 mt-3 font-bold text-[22px]'>Favourite Ones</div>
                             <div className=' ml-7 mt-1 text-[#757A70] text-[15px]'>{recents} items in your collection</div>
                         </div>
                     <div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
@@ -93,13 +94,7 @@ export default function Dashboard({ open, contents, setContents   }: MainpagePro
         createdAt={content.createdAt}
         id={content._id}
         fav={content.fav}
-        onFavChange={(id: string, fav: boolean) => {
-            setContents(prev =>
-                prev.map(item =>
-                    item._id === id ? { ...item, fav: fav } : item
-                )
-            );
-        }}
+        onFavChange={handleFavChange}
     />
 ))}
                     </div>

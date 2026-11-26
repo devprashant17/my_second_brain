@@ -11,9 +11,10 @@ interface MainpageProps {
   open: boolean;
   contents: any[];
   setContents: React.Dispatch<React.SetStateAction<any[]>>;
+  handleFavChange: (id: string, fav: boolean) => void;
 }
 
-export default function Dashboard({ open, contents, setContents   }: MainpageProps){
+export default function Dashboard({ open, contents, setContents, handleFavChange   }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
     
@@ -93,13 +94,7 @@ export default function Dashboard({ open, contents, setContents   }: MainpagePro
         createdAt={content.createdAt}
         id={content._id}
         fav={content.fav}
-        onFavChange={(id: string, fav: boolean) => {
-            setContents(prev =>
-                prev.map(item =>
-                    item._id === id ? { ...item, fav: fav } : item
-                )
-            );
-        }}
+        onFavChange={handleFavChange}
     />
 ))}
                     </div>
