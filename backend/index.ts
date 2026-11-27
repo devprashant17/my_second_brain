@@ -283,7 +283,9 @@ app.delete('/api/v1/content',authentication,async (req,res)=>{
         })
 
         if(!toBeDeleted){
-            return res.status(403).send("No document found!");
+            return res.status(403).json({
+                msg:"No document found!"
+            });
         }
 
         return res.status(200).json({

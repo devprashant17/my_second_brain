@@ -12,9 +12,10 @@ interface MainpageProps {
   contents: any[];
   favcontents: any[];
   handleFavChange: (id: string, fav: boolean) => void;
+  refreshContent: (id: string, fav: boolean) => void;
 }
 
-export default function Favourite({ open, contents, favcontents, handleFavChange   }: MainpageProps){
+export default function Favourite({ open, contents, favcontents, handleFavChange, refreshContent   }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
     const today = new Date();
@@ -80,6 +81,7 @@ export default function Favourite({ open, contents, favcontents, handleFavChange
         id={content._id}
         fav={content.fav}
         onFavChange={handleFavChange}
+        refreshContent={refreshContent}
     />
 ))}
                     </div>

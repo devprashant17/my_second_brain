@@ -11,11 +11,12 @@ interface MainpageProps {
     contents: any[];
     setContents: React.Dispatch<React.SetStateAction<any[]>>;
     handleFavChange: (id: string, fav: boolean) => void;
+    refreshContent: (id: string, fav: boolean) => void;
 }
 
 
 
-export default function AllContent({ open, contents, setContents, handleFavChange }: MainpageProps){
+export default function AllContent({ open, contents, setContents, handleFavChange, refreshContent }: MainpageProps){
     const [gridview,setGridView] = useState(true);
 
     useEffect( ()=>{
@@ -99,6 +100,7 @@ export default function AllContent({ open, contents, setContents, handleFavChang
                                 id={content._id}
                                 fav={content.fav}
                                 onFavChange={handleFavChange}
+                                refreshContent={refreshContent}
                             />
                         ))}
                     </div>

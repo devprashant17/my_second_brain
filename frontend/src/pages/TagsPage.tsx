@@ -10,6 +10,7 @@ interface MainpageProps {
     open: boolean;
     contents: any[];
     setContents: React.Dispatch<React.SetStateAction<any[]>>;
+    refreshContent: (id: string, fav: boolean) => void;
 }
 
 function Tags({
@@ -34,7 +35,7 @@ function Tags({
     );
 }
 
-export default function TagsPage({ open, contents, setContents }: MainpageProps){
+export default function TagsPage({ open, contents, setContents, refreshContent }: MainpageProps){
     const [gridview,setGridView] = useState(true);
     const [TagsArray, setTagsArray] = useState<string[]>([]);
     const [selectedTag,setSelectedTag] = useState<string | null>(null);
@@ -176,6 +177,7 @@ async function fetchTags() {
             createdAt={content.createdAt}
             id={content._id}
             fav={content.fav}
+            refreshContent={refreshContent}
         />
     ))}
 </div>

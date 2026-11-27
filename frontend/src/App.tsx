@@ -32,7 +32,7 @@ export default function App() {
         const data = await response.json();
 
         setContents(data.content);
-        console.log(contents);
+        setFavContents(data.content.filter((item: any) => item.fav === true));
     }
 
     async function refreshFavoriteContent() {
@@ -112,28 +112,28 @@ export default function App() {
                     <>
                         <Navbar  refreshContent={refreshContent}/>
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Dashboard open={open}  contents={contents}  setContents={setContents} handleFavChange={handleFavChange}/>
+                        <Dashboard open={open} refreshContent={refreshContent}  contents={contents}  setContents={setContents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/content" element={
                     <>
                         <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <AllContent open={open}  contents={contents} setContents={setContents} handleFavChange={handleFavChange}/>
+                        <AllContent open={open} refreshContent={refreshContent}  contents={contents} setContents={setContents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/favourites" element={
                     <>
                         <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen} />
-                        <Favourites open={open} contents={contents}  favcontents={favcontents} handleFavChange={handleFavChange}/>
+                        <Favourites refreshContent={refreshContent} open={open} contents={contents}  favcontents={favcontents} handleFavChange={handleFavChange}/>
                         <Footer />
                     </>} />
                 <Route path="/tags" element={
                     <>
                         <Navbar  refreshContent={refreshContent} />
                         <Sidebar open={open} setOpen={setOpen}  />
-                        <TagsPage open={open} contents={contents} setContents={setContents}/>
+                        <TagsPage refreshContent={refreshContent} open={open} contents={contents} setContents={setContents}/>
                         <Footer />
                     </>} />
                 <Route path="/shared" element={

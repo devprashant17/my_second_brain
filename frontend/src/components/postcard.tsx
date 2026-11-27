@@ -74,6 +74,7 @@ export default function PostCard(props:any){
     const [open,setOpen] = useState(false);
     const url = new URL(props.link);
     const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+    const [showDeletedMessage, setShowDeletedMessage] = useState(false);
 
     const [fav, setFav] = useState(props.fav || false);
 
@@ -103,6 +104,38 @@ export default function PostCard(props:any){
         }
         catch (err) {
             console.log("Error updating favorite:", err);
+        }
+    }
+
+    async function deleteContent(){
+        try{
+            const response = await fetch(`${BACKEND_URL}/api/v1/content`,{
+                method:"DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.getItem("token") || ""
+                },
+                body: JSON.stringify({
+                    contentId: props.id
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log(data.msg);
+                setShowDeletedMessage(true);
+                setOpen(false);
+                setTimeout(() => {
+                    setShowCopiedMessage(false);
+                    props.refreshContent();
+                }, 1500);
+                
+                return;
+            }
+        }
+        catch(err){
+            console.log("Error msg: ",err);
         }
     }
 
@@ -138,7 +171,7 @@ export default function PostCard(props:any){
                                         <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                                             Edit
                                         </li>
-                                        <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                                        <li onClick={deleteContent} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                                             Delete 
                                         </li>
                                     </ul>
@@ -147,6 +180,12 @@ export default function PostCard(props:any){
                                     <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#16a34a] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
                                         <span>✓</span>
                                         <span>Link copied!</span>
+                                    </span>
+                                )} 
+                                {(!open && showDeletedMessage) && (
+                                    <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#16a34a] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
+                                        <span>✓</span>
+                                        <span>Post deleted!</span>
                                     </span>
                                 )}
                             </section>
