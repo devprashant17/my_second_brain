@@ -73,6 +73,7 @@ function Tags(props:any){
 export default function PostCard(props:any){
     const [open,setOpen] = useState(false);
     const url = new URL(props.link);
+    const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
     const [fav, setFav] = useState(props.fav || false);
 
@@ -126,7 +127,12 @@ export default function PostCard(props:any){
                     <section className='relative flex'>
                                 {open && (
                                     <ul className="absolute top-full -translate-y-[2vh] translate-x-[17vw] mt-2 w-[8vw] rounded-lg border bg-white shadow-lg">
-                                        <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                                        <li onClick={async ()=>{
+                                            await navigator.clipboard.writeText(props.link);
+                                            setOpen(false);
+                                            setShowCopiedMessage(true);
+                                            setTimeout(() => setShowCopiedMessage(false), 1500);
+                                        }} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                                             Copy Link
                                         </li>
                                         <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
@@ -136,6 +142,12 @@ export default function PostCard(props:any){
                                             Delete 
                                         </li>
                                     </ul>
+                                )}
+                                {(!open && showCopiedMessage) && (
+                                    <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#16a34a] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
+                                        <span>✓</span>
+                                        <span>Link copied!</span>
+                                    </span>
                                 )}
                             </section>
                     <h1 className="text-xl font-bold mb-4 ">{props.title}</h1>
