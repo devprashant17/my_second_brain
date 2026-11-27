@@ -183,7 +183,7 @@ export default function PostCard(props:any){
                                     </span>
                                 )} 
                                 {(!open && showDeletedMessage) && (
-                                    <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#16a34a] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
+                                    <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#dc2626] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
                                         <span>✓</span>
                                         <span>Post deleted!</span>
                                     </span>

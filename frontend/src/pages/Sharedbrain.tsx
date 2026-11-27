@@ -1,4 +1,4 @@
-import PostCard from '../components/postcard';
+import SharedPostCard from '../components/SharedPostcard';
 import blackgrid from '../assets/blackgrid.png';
 import colorgrid from '../assets/colorgrid.png';
 import blacklist from '../assets/blacklist.png';
@@ -118,7 +118,7 @@ export default function SharedBrain({ open, contents, setContents   }: MainpageP
                     {(username && !wrongShareLink && result.length===0) && (<div className='flex justify-center mt-[40vh] text-[25px] ml-[35px] text-[#757A70]'>[ Empty Brain ]</div>)}
                     {!wrongShareLink && (<div className={`${gridview?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2":"ml-[20vw] grid grid-cols-1 gap-2"}`}>
                         {(sharedContents.length!=0) && (result.map(content => (
-                            <PostCard
+                            <SharedPostCard
                                 key={content._id}
                                 title={content.title}
                                 type={content.type}
