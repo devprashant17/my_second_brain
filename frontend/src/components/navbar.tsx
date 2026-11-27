@@ -6,6 +6,7 @@ import { useState,useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Upload, SquareX } from 'lucide-react';
 import { BACKEND_URL } from '../config';
+import ShareToggle from './sharetoggle';
 
 function Dropdown(props: any){
     const [open,setOpen] = useState(false);
@@ -17,7 +18,7 @@ function Dropdown(props: any){
             {open && (<img src={downarrow} onClick={()=>{setOpen(!open)}} className='rotate-180 h-6 w-6'/>)}
             {open&& (
                 <ul className="absolute top-full right-0 -translate-x-2 mt-2 w-40 rounded-lg border bg-white shadow-lg">
-                    <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                    <li onClick={()=> props.setShowProfile(true)}  className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                         Profile
                     </li>
                     <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
@@ -37,10 +38,10 @@ interface NavbarProps {
     refreshContent: () => Promise<void>;
 }
 
-
 export default function Navbar({ refreshContent }: NavbarProps){
     const [open,setOpen] = useState(false);
     const [logoutMessage, setLogoutMessage] = useState(false);
+    const [showProfile, setShowProfile] = useState(false);
 
     function logout(){
         localStorage.removeItem("token");
@@ -104,7 +105,7 @@ export default function Navbar({ refreshContent }: NavbarProps){
             </div>
             <div id="profile" className='flex items-center m-2 ml-20'>
                 <img src={user} className='h-8 w-8 flex items-center rounded-full border-2 border-[#ffc300]'/>
-                <Dropdown logoutMessage={logoutMessage} setLogoutMessage={setLogoutMessage}/>
+                <Dropdown setShowProfile={setShowProfile} showProfile={showProfile} logoutMessage={logoutMessage} setLogoutMessage={setLogoutMessage}/>
             </div>
         </div>
         {open && (
@@ -188,6 +189,51 @@ export default function Navbar({ refreshContent }: NavbarProps){
         </div>
         )}
 
+        {showProfile && (
+            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center">
+                <div
+                    className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+                    onClick={() => setOpen(false)}
+                />
+
+                <div className="relative z-10  bg-[#E2E3DC]  p-6 rounded-xl shadow-xl">
+                    <div className='flex justify-between mb-7'>
+                        <div>
+                            <div className='text-[#757A70] text-[12px]'>Personal Settings</div>
+                            <div className='text-[25px] font-bold'>Your Profile </div>
+                        </div>
+                        <SquareX className='ml-[200px] h-10 w-10 text-slate-600' onClick={() => setOpen(false)} />
+                    </div>
+                    
+                    <div className='flex flex-col justify-around'>
+                        <div className='mb-7'>
+                            <div className='mb-2 text-slate-700 text-[12px]'>Full Name</div>
+                            <div id="full name"className="w-full border-slate-400 border-[1px] rounded-md p-2" >Prashant Karki</div>
+                        </div>
+
+                        <div className='mb-7'>
+                            <div className='mb-2 text-slate-700 text-[12px]'>Username</div>
+                            <div id="full name"className="w-full border-slate-400 border-[1px] rounded-md p-2" >pkarki</div>
+                        </div>
+
+                        <ShareToggle />
+                        <br></br>
+
+                        <div className='grid gap-[2px] grid-cols-2  bg-gray-400 border-2 border-slate-400 rounded-lg'>
+                            <div className='flex p-3 flex-col  bg-[#E2E3DC] justify-center items-center'>
+                                <div className='font-bold'>6</div>
+                                <div className='text-[11px]'>SAVED ITEMS</div>
+                            </div>
+                            <div className='flex flex-col  bg-[#E2E3DC] justify-center items-center'>
+                                <div className='font-bold'>10</div>
+                                <div className='text-[11px]'>TAGS</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        )}
         
 
     </div>
