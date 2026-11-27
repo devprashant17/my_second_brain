@@ -73,6 +73,7 @@ export default function PostCard(props:any){
     const [showCopiedMessage, setShowCopiedMessage] = useState(false);
     const [showDeletedMessage, setShowDeletedMessage] = useState(false);
     const [showEditBox, setShowEditBox] = useState(false);
+    const [showUpdatedMessage, setShowUpdatedMessage] = useState(false);
 
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
@@ -141,7 +142,14 @@ export default function PostCard(props:any){
 
             if (response.ok) {
                 setShowEditBox(false);
+                setShowUpdatedMessage(true);
+                setOpen(false);
+
                 await props.refreshContent();
+                setTimeout(() => {
+                    setShowUpdatedMessage(false);
+                }, 1500);
+
             } else {
                 console.error(data);
             }
@@ -237,6 +245,12 @@ export default function PostCard(props:any){
                                         <span>Post deleted!</span>
                                     </span>
                                 )}
+                                {(!open && showUpdatedMessage) && (
+                                    <span className='flex justify-around absolute top-full -translate-y-[2vh] translate-x-[15vw] mt-2 w-[7vw] rounded-md border bg-[#16a34a] shadow-lg text-slate-100 text-[14px] pt-2 pb-2 pr-2 pl-2'>
+                                        <span>✓</span>
+                                        <span>Post Updated!</span>
+                                    </span>
+                                )} 
                                 
                             </section>
                     <h1 className="text-xl font-bold mb-4 ">{props.title}</h1>
