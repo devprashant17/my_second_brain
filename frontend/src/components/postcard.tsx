@@ -1,13 +1,10 @@
-import { Ellipsis } from 'lucide-react';
-import { Clock5 } from 'lucide-react';
-import { ExternalLink } from 'lucide-react';
-import { FileText } from 'lucide-react';
-import { Link } from 'lucide-react';
-import { Heart } from 'lucide-react';
+import { Ellipsis,Clock5,ExternalLink,FileText,Link,Heart,SquareX,Upload } from 'lucide-react';
+
+import { createPortal } from "react-dom";
 
 import yt from '../assets/youtube.png';
 import twitter from '../assets/twitter.png';
-import { useState } from 'react';
+import { useState,useRef    } from 'react';
 
 import { BACKEND_URL } from '../config';
 
@@ -75,6 +72,12 @@ export default function PostCard(props:any){
     const url = new URL(props.link);
     const [showCopiedMessage, setShowCopiedMessage] = useState(false);
     const [showDeletedMessage, setShowDeletedMessage] = useState(false);
+    const [showEditBox, setShowEditBox] = useState(false);
+
+    const titleRef = useRef<HTMLInputElement>(null);
+    const linkRef = useRef<HTMLInputElement>(null);
+    const typeRef = useRef<HTMLSelectElement>(null);
+    const tagRef = useRef<HTMLInputElement>(null);
 
     const [fav, setFav] = useState(props.fav || false);
 
@@ -107,6 +110,47 @@ export default function PostCard(props:any){
         }
     }
 
+    async function updateContent(){
+        const title = titleRef.current?.value;
+        const link = linkRef.current?.value;
+        const tag = tagRef.current?.value || "";
+        const type = typeRef.current?.value;
+
+        const tagArray = tag
+        .split(",")
+        .map(tag => tag.trim())
+        .filter(tag => tag !== "");
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/v1/content/update`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.getItem("token") || ""
+                },
+                body: JSON.stringify({
+                    contentId: props.id,
+                    title,
+                    link,
+                    type,
+                    tags: tagArray
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setShowEditBox(false);
+                await props.refreshContent();
+            } else {
+                console.error(data);
+            }
+        } catch (err) {
+            console.error("Error updating content:", err);
+        }
+        
+    }
+
     async function deleteContent(){
         try{
             const response = await fetch(`${BACKEND_URL}/api/v1/content`,{
@@ -126,9 +170,11 @@ export default function PostCard(props:any){
                 console.log(data.msg);
                 setShowDeletedMessage(true);
                 setOpen(false);
+
+                await props.refreshContent();
                 setTimeout(() => {
-                    setShowCopiedMessage(false);
-                    props.refreshContent();
+                    setShowDeletedMessage(false);
+                    
                 }, 1500);
                 
                 return;
@@ -168,7 +214,10 @@ export default function PostCard(props:any){
                                         }} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                                             Copy Link
                                         </li>
-                                        <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                                        <li onClick={()=>{
+                                            setOpen(false);
+                                            setShowEditBox(true);
+                                        } } className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                                             Edit
                                         </li>
                                         <li onClick={deleteContent} className="cursor-pointer px-4 py-2 hover:bg-gray-100">
@@ -188,6 +237,7 @@ export default function PostCard(props:any){
                                         <span>Post deleted!</span>
                                     </span>
                                 )}
+                                
                             </section>
                     <h1 className="text-xl font-bold mb-4 ">{props.title}</h1>
             
@@ -214,6 +264,60 @@ export default function PostCard(props:any){
                         </div>
                     </div>
                 </div>
+                {showEditBox && createPortal(
+                                    <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center">
+                                        <div
+                                            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+                                            onClick={() => setShowEditBox(false)}
+                                        />
+
+                                        <div className="relative z-10 bg-white p-6 rounded-xl shadow-xl">
+                                            <div className='flex justify-between mb-7'>
+                                                <div>
+                                                    <div className='text-[#757A70] text-[12px]'>Wanna Change?</div>
+                                                    <div className='text-[25px] font-bold'>Update Your Post </div>
+                                                </div>
+                                                <SquareX className='ml-[200px] h-10 w-10 text-slate-600' onClick={() => setShowEditBox(false)} />
+                                            </div>
+                                            
+                                            <div className='flex flex-col justify-around'>
+                                                <div className='mb-7'>
+                                                    <div className='text-slate-700 text-[12px]'>Content Type</div>
+                                                    <select ref={typeRef} defaultValue={props.type} name="type" id="type" className="w-full border-[1px] rounded-md p-2">
+                                                        <option value="Link">Link</option>
+                                                        <option value="Youtube">YouTube</option>
+                                                        <option value="Twitter">Twitter</option>
+                                                        <option value="Document">Document</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className='mb-7'>
+                                                    <div className='text-slate-700 text-[12px]'>URL</div>
+                                                    <input defaultValue={props.link} ref={linkRef} id="url"className="w-full border-[1px] rounded-md p-2" placeholder='https://example.com/article'></input>
+                                                </div>
+
+                                                <div className='mb-7'>
+                                                    <div className='text-slate-700 text-[12px]'>Title</div>
+                                                    <input defaultValue={props.title} ref={titleRef} id="title" className="w-full border-[1px] rounded-md p-2" placeholder='Something worth remembering'></input>
+                                                </div>
+
+                                                <div className='mb-7'>
+                                                    <div className='flex'>
+                                                        <div className='text-slate-700 text-[12px]'>Tags</div>
+                                                        <div className='text-[#757A70] text-[8px] mt-1 ml-1'>Comma separated</div>
+                                                    </div>
+                                                    <input defaultValue={props.tags.join(", ")} ref={tagRef} id="tags" className="w-full border-[1px] rounded-md p-2" placeholder='Design,Research,Ideas'></input>
+                                                </div> 
+                                                <div onClick={updateContent} className='cursor-pointer shadow-md rounded-md pl-4 pr-5 pt-2 pb-2 flex justify-center items-center bg-[#171916] hover:opacity-[90%] hover:shadow-md text-[#F5F6EF]'>  
+                                                    <Upload className=' mr-2 h-5 w-5' />
+                                                    <div>Update Post </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                , document.body)}
+
        
 
     </div>

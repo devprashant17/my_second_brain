@@ -193,6 +193,35 @@ app.post('/api/v1/content',authentication,async (req,res)=>{
 
 });
 
+app.put('/api/v1/content/update',authentication,async (req,res)=>{
+    try{
+        const content:any = req.body;
+        const userId = res.locals.userId;
+
+        await contentModel.findOneAndUpdate({
+            _id: content.contentId
+        },
+        {
+            type: content.type,
+            link: content.link,
+            title: content.title,
+            tags: content.tags,
+            userId: userId
+        }
+    );
+
+        return res.status(200).json({
+            message: "Content updated successfully!"
+        });
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send("Server Error!");
+    }
+    
+
+});
+
 app.put("/api/v1/content/favorite", authentication, async (req, res) => {
     try {
         const contentId = req.body.contentId;
