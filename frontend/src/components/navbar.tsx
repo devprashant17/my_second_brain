@@ -4,11 +4,10 @@ import downarrow from '../assets/down-arrow.png';
 import search from '../assets/search.png';
 import { useState,useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus } from 'lucide-react';
-import { SquareX } from 'lucide-react';
+import { Plus, Upload, SquareX } from 'lucide-react';
 import { BACKEND_URL } from '../config';
 
-function Dropdown(){
+function Dropdown(props: any){
     const [open,setOpen] = useState(false);
 
     return (
@@ -24,7 +23,8 @@ function Dropdown(){
                     <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                         Settings
                     </li>
-                    <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                    <li onClick={()=> props.setLogoutMessage(true)}   
+                        className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                         Logout
                     </li>
                 </ul>
@@ -40,6 +40,12 @@ interface NavbarProps {
 
 export default function Navbar({ refreshContent }: NavbarProps){
     const [open,setOpen] = useState(false);
+    const [logoutMessage, setLogoutMessage] = useState(false);
+
+    function logout(){
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    }
 
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
@@ -98,7 +104,7 @@ export default function Navbar({ refreshContent }: NavbarProps){
             </div>
             <div id="profile" className='flex items-center m-2 ml-20'>
                 <img src={user} className='h-8 w-8 flex items-center rounded-full border-2 border-[#ffc300]'/>
-                <Dropdown />
+                <Dropdown logoutMessage={logoutMessage} setLogoutMessage={setLogoutMessage}/>
             </div>
         </div>
         {open && (
@@ -146,7 +152,7 @@ export default function Navbar({ refreshContent }: NavbarProps){
                             <input ref={tagRef} id="tags" className="w-full border-[1px] rounded-md p-2" placeholder='Design,Research,Ideas'></input>
                         </div> 
                         <div onClick={addContent} className='cursor-pointer shadow-md rounded-md pl-4 pr-5 pt-2 pb-2 flex justify-center items-center bg-[#171916] hover:opacity-[90%] hover:shadow-md text-[#F5F6EF]'>  
-                            <Plus className=' mr-2 h-5 w-5' />
+                            <Upload className=' mr-2 h-5 w-5' />
                             <div>Add Content </div> 
                         </div>
                     </div>
@@ -154,6 +160,35 @@ export default function Navbar({ refreshContent }: NavbarProps){
                 </div>
             </div>
         )}
+
+        {logoutMessage && (
+            <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center">
+                <div
+                    className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+                    onClick={() => setOpen(false)}
+                />
+
+                <div className="relative z-10 bg-[#F7F7F2] border-2 border-[#E2E3DC] p-6 rounded-xl shadow-xl">
+                    <div className='flex justify-between mb-7'>
+                        <div>
+                            <div className='text-[#757A70] text-[12px]'>ARE YOU SURE?</div>
+                            <div className='text-[25px] font-bold'>Do you want to log out? </div>
+                        </div>
+                    </div>
+                    
+                    <div className='flex justify-around '>
+                        <div onClick={()=>{
+                            setLogoutMessage(false);
+                        }} className='cursor-pointer border p-2 bg-[#EBECE5] hover:bg-[#DFE1D8] rounded-md'>Cancel</div> 
+                        <div onClick={logout} className='cursor-pointer border p-2 bg-[#DC2626] hover:bg-[#B91C1C] text-slate-200 rounded-md'>Log Out</div> 
+                    
+                    </div>
+            </div>
+
+        </div>
+        )}
+
+        
 
     </div>
 }
