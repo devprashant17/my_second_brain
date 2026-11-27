@@ -132,7 +132,7 @@ async function fetchTags() {
                     <hr className='border-1 border-gray-300 mt-7 ml-8 mr-14' />
                     <Tags
                         arr={TagsArray}
-                        onTagClick={(tag) => setSelectedTag(tag)}
+                        onTagClick={(tag) => {setSelectedTag(tag);}}
                     />
 
                    {/* Selected tag and clear filter */}
@@ -140,7 +140,7 @@ async function fetchTags() {
     {selectedTag && (
         <>
             <div className="text-[#757A70]">
-                Showing posts for #{selectedTag}
+                Showing posts for <b className='text-slate-800'>#{selectedTag}</b>
             </div>
 
             <button
