@@ -217,7 +217,7 @@ export default function Navbar({ refreshContent }: NavbarProps){
                         </div>
 
                         <ShareToggle />
-                        <br></br>
+                        <br/>
 
                         <div className='grid gap-[2px] grid-cols-2  bg-gray-400 border-2 border-slate-400 rounded-lg'>
                             <div className='flex p-3 flex-col  bg-[#E2E3DC] justify-center items-center'>
